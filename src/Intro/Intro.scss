@@ -1,0 +1,47 @@
+@use "../variables" as *;
+
+.intro__slide {
+  color: white;
+  display: flex;
+  align-items: center;
+  height: 90vh;
+
+  &--1 {
+    background: linear-gradient(
+                    rgba(0, 0, 0, 0.7),
+                    rgba(0, 0, 0, 0.7)
+    ),
+    url("../../public/img/computer.jpg") no-repeat;
+    background-size: cover;
+  }
+
+  &--2 {
+    background: linear-gradient(
+                    rgba(0, 0, 0, 0.7),
+                    rgba(0, 0, 0, 0.7)
+    ),
+    url("../../public/img/computer2.jpg") no-repeat;
+    background-size: cover;
+  }
+
+  &--3 {
+    background: linear-gradient(
+                    rgba(0, 0, 0, 0.7),
+                    rgba(0, 0, 0, 0.7)
+    ),
+    url("../../public/img/computer3.jpg") no-repeat;
+    background-size: cover;
+  }
+}
+
+.intro__slide-headline {
+  font-size: 35px;
+  margin-bottom: 10px;
+}
+
+.intro__slide-subheadline {
+  font-size: 22px;
+  margin-top: 0;
+  margin-bottom: 30px;
+  max-width: 400px;
+}

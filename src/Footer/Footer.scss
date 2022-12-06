@@ -1,0 +1,28 @@
+@use "../variables" as *;
+
+.footer {
+  background: $g-color-gray2;
+  padding: 20px 0;
+  margin-top: 70px;
+}
+
+.footer__container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer__socials {
+  display: flex;
+  color: inherit;
+  text-decoration: none;
+
+  a {
+    margin-right: 10px;
+    opacity: 0.7;
+    transition: .2s opacity;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

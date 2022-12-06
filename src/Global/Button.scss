@@ -1,0 +1,17 @@
+@use "../variables" as *;
+
+.button {
+  padding: 10px 15px;
+  border-radius: 5px;
+  color: $g-color-white;
+  text-decoration: none;
+  background: $g-color-green1;
+  display: inline-block;
+  cursor: pointer;
+  transition: .2s background-color;
+  border: 0;
+
+  &:hover {
+    background: darken($g-color-green1, 5%);
+  }
+}

@@ -1,0 +1,57 @@
+@use "../variables" as *;
+
+.add-project {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  min-width: 300px;
+  width: 90%;
+  max-width: 500px;
+  background: $g-color-white;
+}
+
+.add-project__content {
+  padding: 20px;
+}
+
+
+.add-project__header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+
+  // close button
+  a {
+    cursor: pointer;
+  }
+}
+
+.add-project__control {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+
+  label {
+    margin-bottom: 5px;
+    color: $g-color-gray1;
+    font-size: 18px;
+  }
+
+  input, select, textarea {
+    padding: 5px 7px;
+    margin: 0 2px;
+    border: 2px solid $g-color-gray1;
+    border-radius: 2px;
+    background: $g-color-gray2;
+    font-size: 16px;
+  }
+
+  button {
+    margin-top: 20px;
+  }
+}
+
+.add-project__message {
+  margin-top: 15px;
+}
