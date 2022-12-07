@@ -97,16 +97,14 @@ $transition-speed: 1s;
     }
   }
 
-  span {
-    @extend %arrow;
-  }
 }
 
-@keyframes fadeIn {
-  0% {
+.slider__arrow {
+  @extend %arrow;
+
+  &--hidden {
     opacity: 0;
+    pointer-events: none;
   }
-  100% {
-    opacity: 1;
-  }
+
 }

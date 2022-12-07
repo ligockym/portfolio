@@ -117,9 +117,11 @@
 .header__search {
   display: flex;
   align-items: center;
+  margin: 15px auto;
 
   @media all and (min-width: $g-mobile) {
     margin-left: 10px;
+    margin-top: auto;
   }
 
   // img

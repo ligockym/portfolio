@@ -13,7 +13,6 @@ function Header() {
     // when scrolling down, header is not visible, when scrolling up, it is visible
     const [isVisible, setIsVisible] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const [prevScrollY, setPrevScrollY] = useState(0);
 
     const items: NavItem[] = [
         {href: 'home', label: 'Home'},
@@ -22,21 +21,26 @@ function Header() {
     ];
 
     useEffect(() => {
-        const onScroll = (event: Event) => {
+        let prevScrollY = 0;
+
+        const onScroll = () => {
             const scrolledDown = window.scrollY > prevScrollY;
             if (!scrolledDown || window.scrollY === 0) {
                 setIsVisible(true);
             } else {
                 setIsVisible(false);
             }
-            setPrevScrollY(window.scrollY);
+            prevScrollY = window.scrollY;
         }
+
+        // on load
+        onScroll();
 
         window.addEventListener("scroll", onScroll, {passive: true});
         return () => {
             window.removeEventListener("scroll", onScroll);
         }
-    }, [prevScrollY]);
+    }, []);
 
 
     return (

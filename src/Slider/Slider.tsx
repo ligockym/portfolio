@@ -84,6 +84,8 @@ class Slider extends React.Component<MyProps, MyState> {
 
     slideChange(slideIndex: number) {
         // item does not exist
+        if (this.props.children.length === 0) return;
+
         const widthOfSlides = this.refSlides.current.offsetWidth;
         const widthOfSlide = this.refSlides.current.querySelector(".slider__slide").offsetWidth;
 
@@ -177,10 +179,10 @@ class Slider extends React.Component<MyProps, MyState> {
 
                 {this.state.arrows &&
                     <div className={`slider__arrows ${this.state.arrowsInside ? 'slider__arrows--inside' : ''}`}>
-                        <span className={this.state.slideIndex === 0 ? 'visibility-hidden' : ''}
+                        <span className={`slider__arrow ${this.state.slideIndex === 0 ? 'slider__arrow--hidden' : ''}`}
                               onMouseEnter={() => this.handleArrowHover()}
                               onClick={() => this.slidePrev(this.state.slideIndex)}> <img src="icons/arrow-left.svg" alt="<"/></span>
-                        <span className={this.state.areAllVisible ? 'visibility-hidden' : ''}
+                        <span className={`slider__arrow ${this.state.slideIndex === 0 ? 'slider__arrow--hidden' : ''}`}
                               onMouseEnter={() => this.handleArrowHover()}
                               onClick={() => this.slideNext(this.state.slideIndex)}> <img src="icons/arrow-right.svg" alt=">"/></span>
                     </div>

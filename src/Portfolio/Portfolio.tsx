@@ -2,12 +2,12 @@ import React, {useState} from 'react';
 import './Portfolio.scss';
 import Slider from "../Slider/Slider";
 
-export const PortfolioTags = ['Web', 'Education'];
+export const PortfolioTags = ['Work', 'Education'];
 
 export type PortfolioItem = {
     headline: string;
     text: string; // including <p>
-    tag: string;
+    tags: string[];
     bg: string;
     date: string;
 };
@@ -16,13 +16,17 @@ function Portfolio(props: {portfolioItems: PortfolioItem[]}) {
     const [activeTag, setActiveTag] = useState<string>('All');
 
     function allTags() {
-        const tags = ['All'];
-        return tags.concat(Array.from(new Set(props.portfolioItems.map(item => item.tag))));
+        return ['All', ...PortfolioTags];
     }
 
     function filteredItems() {
         if (activeTag === 'All') return props.portfolioItems;
-        return props.portfolioItems.filter((item) => item.tag === activeTag);
+        // filter portfolio items if containing the activeTag
+        const items =  props.portfolioItems.filter((item) => {
+            return item.tags.includes(activeTag);
+        });
+        console.log(items);
+        return items;
     }
 
     return (
@@ -56,7 +60,9 @@ function Portfolio(props: {portfolioItems: PortfolioItem[]}) {
                                 </div>
 
                                 <div className="portfolio__slide-tags">
-                                    <span>#{item.tag}</span>
+                                    {item.tags.map((tag) =>
+                                        <span key={tag}>#{tag}</span>
+                                    )}
                                 </div>
 
                                 <div>

@@ -1,0 +1,20 @@
+@use "../variables" as *;
+
+.container {
+  width: 90%;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container--fluid {
+  max-width: none;
+}
+
+.container-left {
+  // space from left similar then .container
+
+  @media all and (min-width: 1100px) {
+    margin-left: calc((100vw - 1000px) / 2) ;
+  }
+}

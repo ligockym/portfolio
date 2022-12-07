@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import logo from './logo.svg';
 import './_variables.scss';
 import './App.scss';
-import './Global/Button.scss';
 import Header from "./Header/Header";
 import Intro from "./Intro/Intro";
 import Portfolio, {PortfolioItem} from "./Portfolio/Portfolio";
@@ -25,7 +23,7 @@ function App() {
     }
 
     function updatePortfolio() {
-        fetch('http://portfolio.marianligocky.sk/portfolio.php')
+        fetch('https://portfolio.marianligocky.sk/portfolio.php')
             .then(results => results.json())
             .then(data => {
                 const items: PortfolioItem[] = [];
@@ -33,7 +31,7 @@ function App() {
                     items.push({
                         headline: item['headline'],
                         text: item['text'],
-                        tag: item['tag'],
+                        tags: item['tags'].split(','),
                         bg: item['bg'],
                         date: item['date']
                     });

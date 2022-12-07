@@ -9,7 +9,7 @@ type MyProps = {
 type MyState = {
     headline: string,
     date: string,
-    tag: string,
+    tags: string[],
     text: string,
     message: string,
     success: boolean
@@ -19,7 +19,7 @@ class AddProject extends React.Component<MyProps> {
     state: MyState = {
         headline: '',
         date: '',
-        tag: '',
+        tags: [],
         text: '',
         message: '',
         success: false
@@ -31,12 +31,12 @@ class AddProject extends React.Component<MyProps> {
         let success = false;
 
         try {
-            const res = await fetch("http://portfolio.marianligocky.sk/api.php", {
+            const res = await fetch("https://portfolio.marianligocky.sk/api.php", {
                 method: "POST",
                 body: JSON.stringify({
                     headline: this.state.headline,
                     date: this.state.date,
-                    tag: this.state.tag,
+                    tags: this.state.tags.join(','), // send tags in form of string comma separated
                     text: this.state.text,
                 }),
             });
@@ -56,13 +56,28 @@ class AddProject extends React.Component<MyProps> {
         this.setState({
             headline: '',
             date: '',
-            tag: '',
+            tags: [],
             text: '',
             message: message,
             success: success
         });
     };
 
+    onTagCheckboxChange(event: React.ChangeEvent<HTMLInputElement>) {
+        console.log(event.target.value, event.target.checked);
+        if (event.target.checked) {
+            // add value to tags
+            this.setState((prevState: MyState, props) => ({
+                tags: prevState.tags.concat(event.target.value)
+            }));
+        } else {
+            // remove value from tags
+            this.setState((prevState: MyState, props) => ({
+                // remove by filtering
+                tags: prevState.tags.filter((i) => i !== event.target.value)
+            }));
+        }
+    }
 
     render() {
         return (
@@ -91,15 +106,20 @@ class AddProject extends React.Component<MyProps> {
                     </div>
 
                     <div className="add-project__control">
-                        <label>Tag</label>
-                        <select name="text"
-                                value={this.state.tag}
-                                onChange={(e) => this.setState({tag: e.target.value})}
-                                required>
-                            {PortfolioTags.map((item) => (
-                                <option value={item} key={item}>{item}</option>
-                            ))}
-                        </select>
+                        <label>Tags</label>
+
+                        {PortfolioTags.map((item) => (
+                            <div className="add-project__control-radio" key={item}>
+                                <input type="checkbox"
+                                       name="tags"
+                                       value={item}
+                                       id={item}
+                                       checked={this.state.tags.includes(item)}
+                                       required={this.state.tags.length == 0} /* At least one required */
+                                       onChange={(event) => this.onTagCheckboxChange(event)}/>
+                                <label htmlFor={`${item}`}>{item}</label>
+                            </div>
+                        ))}
                     </div>
 
                     <div className="add-project__control">
@@ -121,7 +141,6 @@ class AddProject extends React.Component<MyProps> {
             </form>
         );
     }
-
 }
 
 export default AddProject;
