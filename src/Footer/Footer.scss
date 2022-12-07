@@ -4,6 +4,8 @@
   background: $g-color-gray2;
   padding: 20px 0;
   margin-top: 70px;
+  z-index: 6; // higher than scroll to top
+  position: relative;
 }
 
 .footer__container {

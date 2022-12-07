@@ -1,7 +1,7 @@
 @use "../variables" as *;
-@use "../App" as *;
+@use "../Mixins" as *;
 
-$transition-speed: 1s;
+$transition-speed: 0.7s;
 
 .slider {
   position: relative;
@@ -100,7 +100,7 @@ $transition-speed: 1s;
 }
 
 .slider__arrow {
-  @extend %arrow;
+  @include arrow(25px, 50px);
 
   &--hidden {
     opacity: 0;

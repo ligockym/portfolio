@@ -23,7 +23,7 @@ function ScrollToTop() {
 
     return(
         <div className={`scroll-to-top ${!isShown ? 'scroll-to-top--hidden' : ''}`} onClick={() => scrollTop()}>
-            <img src="icons/arrow-up.svg" height="20" alt="Arrow up"/>
+            <img src="icons/arrow-up.svg" alt="Arrow up"/>
         </div>
     );
 }

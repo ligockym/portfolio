@@ -11,10 +11,10 @@ class Footer extends React.Component<MyProps> {
             <footer className="footer">
                 <div className="footer__container container">
                     <div className="footer__socials">
-                        <a href="https://www.facebook.com/">
+                        <a target="_blank" href="https://www.facebook.com/">
                             <img src="icons/facebook.svg" alt={"Facebook"} height="40"/>
                         </a>
-                        <a href="https://www.instagram.com/">
+                        <a target="_blank" href="https://www.instagram.com/">
                             <img src="icons/instagram.svg" alt={"Instagram"} height="40"/>
                         </a>
                     </div>

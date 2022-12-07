@@ -1,10 +1,9 @@
-@use "../variables" as *;
+@use "variables" as *;
 
-%arrow {
-  $size: 25px;
-  width: $size;
-  height: $size;
-  border-radius: $size;
+@mixin arrow($size_mobile: 25px, $size_desktop: 40px) {
+  width: $size_mobile;
+  height: $size_mobile;
+  border-radius: $size_mobile;
   background: $g-color-white;
   display: flex;
   align-items: center;
@@ -23,10 +22,9 @@
   }
 
   @media all and (min-width: $g-mobile) {
-    $size: 40px;
-    width: $size;
-    height: $size;
-    border-radius: $size;
+    width: $size_desktop;
+    height: $size_desktop;
+    border-radius: $size_desktop;
     padding: 10px;
   }
 }

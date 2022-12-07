@@ -34,10 +34,6 @@ class Slider extends React.Component<MyProps, MyState> {
     refSlides: any = React.createRef();
 
     componentDidMount() {
-        this.interval = setInterval(() => {
-            this.slideNext(this.state.slideIndex);
-        }, 4000);
-
         // check whether to use itemWidth or itemWidthMobile
         window.addEventListener("resize", () => this.resizeIfNeeded());
     }
@@ -52,6 +48,13 @@ class Slider extends React.Component<MyProps, MyState> {
             this.resizeIfNeeded();
             this.slideChange(0);
         }
+    }
+
+    resetInterval() {
+        clearInterval(this.interval);
+        this.interval = setInterval(() => {
+            this.slideNext(this.state.slideIndex);
+        }, 4000);
     }
 
     resizeIfNeeded() {
@@ -94,7 +97,7 @@ class Slider extends React.Component<MyProps, MyState> {
         const areAllVisible = visible >= this.props.children.length
 
         this.setState({slideIndex: slideIndex, areAllVisible: areAllVisible});
-        clearInterval(this.interval);
+        this.resetInterval();
     }
 
     handlePaginationClick(index: number) {
@@ -102,11 +105,11 @@ class Slider extends React.Component<MyProps, MyState> {
     }
 
     handlePaginationHover() {
-        clearInterval(this.interval);
+        this.resetInterval();
     }
 
     handleArrowHover() {
-        clearInterval(this.interval);
+        this.resetInterval();
     }
 
     // from https://dev.to/rakumairu/how-to-handle-swipe-event-on-react-carousel-24ab
@@ -179,10 +182,10 @@ class Slider extends React.Component<MyProps, MyState> {
 
                 {this.state.arrows &&
                     <div className={`slider__arrows ${this.state.arrowsInside ? 'slider__arrows--inside' : ''}`}>
-                        <span className={`slider__arrow ${this.state.slideIndex === 0 ? 'slider__arrow--hidden' : ''}`}
+                        <span className={`slider__arrow`}
                               onMouseEnter={() => this.handleArrowHover()}
                               onClick={() => this.slidePrev(this.state.slideIndex)}> <img src="icons/arrow-left.svg" alt="<"/></span>
-                        <span className={`slider__arrow ${this.state.slideIndex === 0 ? 'slider__arrow--hidden' : ''}`}
+                        <span className={`slider__arrow`}
                               onMouseEnter={() => this.handleArrowHover()}
                               onClick={() => this.slideNext(this.state.slideIndex)}> <img src="icons/arrow-right.svg" alt=">"/></span>
                     </div>
