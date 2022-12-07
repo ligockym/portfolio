@@ -1,23 +1,37 @@
 <?php
+include_once 'database.php';
 
+$input = file_get_contents('php://input');
+$json = json_decode($input, true);
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST');
+header("Access-Control-Allow-Headers: X-Requested-With");
 
-
-
-function insert_project() use($conn) {
-
-    try {
-        $conn = db_connect();
-
-        $sql = "INSERT INTO MyGuests (firstname, lastname, email)
-  VALUES ('John', 'Doe', 'john@example.com')";
-        // use exec() because no results are returned
-        $conn->exec($sql);
-        echo "New record created successfully";
-    } catch (PDOException $e) {
-        echo $sql . "<br>" . $e->getMessage();
-    }
-
-    $conn = null;
-
+if (!$json || empty($json['headline']) || empty($json['date']) || empty($json['text']) || empty($json['tag'])) {
+    die('Wrong data format.');
 }
+
+try {
+    $conn = db_connect();
+
+    $stmt = $conn->prepare("INSERT INTO portfolio (headline, date, tag, text)
+  VALUES (:headline, :date, :tag, :text)");
+    $stmt->bindParam(':headline', $headline);
+    $stmt->bindParam(':date', $date);
+    $stmt->bindParam(':tag', $tag);
+    $stmt->bindParam(':text', $text);
+
+    $headline = strip_tags($json['headline']);
+    $date = strip_tags($json['date']);
+    $text = strip_tags($json['text'], '<p>');
+    $tag = strip_tags($json['tag']);
+    $stmt->execute();
+
+
+    echo '1';
+} catch (PDOException $e) {
+    die("Database error in insert");
+}
+
+$conn = null;

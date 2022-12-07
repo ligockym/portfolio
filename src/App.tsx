@@ -1,18 +1,19 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import './_variables.scss';
 import './App.scss';
 import './Global/Button.scss';
 import Header from "./Header/Header";
 import Intro from "./Intro/Intro";
-import Portfolio from "./Portfolio/Portfolio";
+import Portfolio, {PortfolioItem} from "./Portfolio/Portfolio";
 import Skills from "./Skills/Skills";
 import Footer from "./Footer/Footer";
 import AddProject from "./AddProject/AddProject";
-import addProject from "./AddProject/AddProject";
+import ScrollToTop from "./ScrollToTop/ScrollToTop";
 
 function App() {
     const [isModal, setIsModal] = useState(false);
+    const [portfolioItems, setPortfolioItems] = useState<PortfolioItem[]>([]);
 
     function addProject() {
         setIsModal(true);
@@ -20,7 +21,32 @@ function App() {
 
     function modalClose() {
         setIsModal(false);
+        updatePortfolio();
     }
+
+    function updatePortfolio() {
+        fetch('http://portfolio.marianligocky.sk/portfolio.php')
+            .then(results => results.json())
+            .then(data => {
+                const items: PortfolioItem[] = [];
+                data.forEach((item: { [x: string]: any; }) => {
+                    items.push({
+                        headline: item['headline'],
+                        text: item['text'],
+                        tag: item['tag'],
+                        bg: item['bg'],
+                        date: item['date']
+                    });
+                });
+
+                setPortfolioItems(items);
+            });
+    }
+
+    useEffect(() => {
+        updatePortfolio();
+    }, []);
+
 
     return (
         <div className="app">
@@ -31,7 +57,7 @@ function App() {
                 </div>
 
                 <div id="portfolio">
-                    <Portfolio/>
+                    <Portfolio portfolioItems={portfolioItems}/>
                 </div>
 
                 <div id="skills">
@@ -44,6 +70,8 @@ function App() {
             {isModal &&
                 <AddProject handleClose={modalClose}></AddProject>
             }
+
+            <ScrollToTop/>
 
         </div>);
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import './AddProject.scss';
-import {PortfolioTag} from "../Portfolio/Portfolio";
+import {PortfolioTags} from "../Portfolio/Portfolio";
 
 type MyProps = {
     handleClose: CallableFunction
@@ -11,7 +11,8 @@ type MyState = {
     date: string,
     tag: string,
     text: string,
-    message: ''
+    message: string,
+    success: boolean
 };
 
 class AddProject extends React.Component<MyProps> {
@@ -21,14 +22,16 @@ class AddProject extends React.Component<MyProps> {
         tag: '',
         text: '',
         message: '',
+        success: false
     }
 
     async handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         let message = "";
+        let success = false;
 
         try {
-            const res = await fetch("/api.php", {
+            const res = await fetch("http://portfolio.marianligocky.sk/api.php", {
                 method: "POST",
                 body: JSON.stringify({
                     headline: this.state.headline,
@@ -39,7 +42,8 @@ class AddProject extends React.Component<MyProps> {
             });
             const resJson = await res.json();
             if (res.status === 200) {
-                message = "User created successfully";
+                message = "Portfolio item was created successfully";
+                success = true;
             } else {
                 message = "Some error occurred";
             }
@@ -53,7 +57,9 @@ class AddProject extends React.Component<MyProps> {
             headline: '',
             date: '',
             tag: '',
-            message: message
+            text: '',
+            message: message,
+            success: success
         });
     };
 
@@ -90,7 +96,7 @@ class AddProject extends React.Component<MyProps> {
                                 value={this.state.tag}
                                 onChange={(e) => this.setState({tag: e.target.value})}
                                 required>
-                            {Object.keys(PortfolioTag).map((item) => (
+                            {PortfolioTags.map((item) => (
                                 <option value={item} key={item}>{item}</option>
                             ))}
                         </select>
@@ -101,8 +107,7 @@ class AddProject extends React.Component<MyProps> {
                         <textarea name="text"
                                   required
                                   value={this.state.text}
-                                  onChange={(e) => this.setState({text: e.target.value})}
-                        />
+                                  onChange={(e) => this.setState({text: e.target.value})}/>
                     </div>
 
                     <div className="add-project__control">
@@ -110,7 +115,7 @@ class AddProject extends React.Component<MyProps> {
                     </div>
 
                     {this.state.message &&
-                        <p className="add-project__message">{this.state.message}</p>
+                        <p className={`add-project__message ${this.state.success ? 'add-project__message--success' : 'add-project__message--failure'}`}>{this.state.message}</p>
                     }
                 </div>
             </form>

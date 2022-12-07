@@ -7,7 +7,7 @@ function db_connect() {
     $dbname = "myDBPDO";
 
     try {
-        return new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        return new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
     } catch (PDOException $e) {
         echo "Database error";
         die();

@@ -1,0 +1,16 @@
+@use "../variables" as *;
+@use "../App" as *;
+
+.scroll-to-top {
+  @extend %arrow;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  opacity: 1;
+  z-index: 5;
+}
+
+.scroll-to-top--hidden {
+  opacity: 0;
+  pointer-events: none;
+}

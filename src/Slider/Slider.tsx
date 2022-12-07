@@ -36,13 +36,27 @@ class Slider extends React.Component<MyProps, MyState> {
     componentDidMount() {
         this.interval = setInterval(() => {
             this.slideNext(this.state.slideIndex);
-        }, 7000);
+        }, 4000);
 
         // check whether to use itemWidth or itemWidthMobile
-        window.addEventListener("resize", () => this.onWindowResize());
+        window.addEventListener("resize", () => this.resizeIfNeeded());
     }
 
-    onWindowResize() {
+    componentWillUnmount() {
+        clearInterval(this.interval);
+        window.removeEventListener("resize", this.resizeIfNeeded);
+    }
+
+    componentDidUpdate(prevProps: MyProps) {
+        if (prevProps.children !== this.props.children) {
+            this.resizeIfNeeded();
+            this.slideChange(0);
+        }
+    }
+
+    resizeIfNeeded() {
+        if (this.props.children.length == 0) return;
+
         const prev = this.state.itemWidth;
         const isMobile = window.innerWidth < 768;
         // if mobile does not exist, use desktop size for mobiles
@@ -54,11 +68,6 @@ class Slider extends React.Component<MyProps, MyState> {
             // change, reload slide
             this.slideChange(this.state.slideIndex);
         }
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.interval);
-        window.removeEventListener("resize", this.onWindowResize);
     }
 
     slidePrev(slideIndex: number) {
@@ -74,8 +83,9 @@ class Slider extends React.Component<MyProps, MyState> {
     }
 
     slideChange(slideIndex: number) {
+        // item does not exist
         const widthOfSlides = this.refSlides.current.offsetWidth;
-        const widthOfSlide = this.refSlide.current.offsetWidth;
+        const widthOfSlide = this.refSlides.current.querySelector(".slider__slide").offsetWidth;
 
         // determine whether all slides are visible (right arrow is then hidden)
         const visible = slideIndex + (widthOfSlides / widthOfSlide);
@@ -169,10 +179,10 @@ class Slider extends React.Component<MyProps, MyState> {
                     <div className={`slider__arrows ${this.state.arrowsInside ? 'slider__arrows--inside' : ''}`}>
                         <span className={this.state.slideIndex === 0 ? 'visibility-hidden' : ''}
                               onMouseEnter={() => this.handleArrowHover()}
-                              onClick={() => this.slidePrev(this.state.slideIndex)}> ᐸ </span>
+                              onClick={() => this.slidePrev(this.state.slideIndex)}> <img src="icons/arrow-left.svg" alt="<"/></span>
                         <span className={this.state.areAllVisible ? 'visibility-hidden' : ''}
                               onMouseEnter={() => this.handleArrowHover()}
-                              onClick={() => this.slideNext(this.state.slideIndex)}> ᐳ </span>
+                              onClick={() => this.slideNext(this.state.slideIndex)}> <img src="icons/arrow-right.svg" alt=">"/></span>
                     </div>
                 }
 

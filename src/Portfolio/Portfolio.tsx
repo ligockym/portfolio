@@ -1,74 +1,59 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Portfolio.scss';
 import Slider from "../Slider/Slider";
 
-export enum PortfolioTag {
-    Web = "Web",
-    Education = "Education",
-}
+export const PortfolioTags = ['Web', 'Education'];
 
-type PortfolioItem = {
+export type PortfolioItem = {
     headline: string;
     text: string; // including <p>
-    tag: PortfolioTag;
+    tag: string;
     bg: string;
     date: string;
 };
 
-function Portfolio() {
-    const items: PortfolioItem[] = [
-        {
-            headline: 'MôjAltánok',
-            text: `<p>Web development of e-shop that sells garden furniture and buildings. I worked on integrations among systems, automatic
-                    synchronization of products and full-stack enhancements.</p>
-                    <p>Web is based on Wordpress and WooCommerce.</p>`,
-            tag: PortfolioTag.Web,
-            bg: 'img/altanok.jpg',
-            date: '2019-2022',
-        },
-        {
-            headline: 'Nottelo',
-            text: `<p>Let's make our own to-do manager. </p>
-                    <p>Web is based on Wordpress and WooCommerce.</p>`,
-            tag: PortfolioTag.Web,
-            bg: 'img/notello.jpg',
-            date: '2019-2020',
-        },
-        {
-            headline: 'VUT Brno',
-            text: `<p>Studying on university</p>`,
-            tag: PortfolioTag.Education,
-            bg: 'img/fit.jpg',
-            date: '2020-2022',
-        },
-        {
-            headline: 'Climaton Bratislava',
-            text: `<p>We developed an information system that helps the city with illegal dumps management.</p>`,
-            tag: PortfolioTag.Education,
-            bg: 'img/ba.jpg',
-            date: '2022',
-        }
-    ]
+function Portfolio(props: {portfolioItems: PortfolioItem[]}) {
+    const [activeTag, setActiveTag] = useState<string>('All');
+
+    function allTags() {
+        const tags = ['All'];
+        return tags.concat(Array.from(new Set(props.portfolioItems.map(item => item.tag))));
+    }
+
+    function filteredItems() {
+        if (activeTag === 'All') return props.portfolioItems;
+        return props.portfolioItems.filter((item) => item.tag === activeTag);
+    }
 
     return (
         <section className="portfolio">
             <div className="container">
                 <h2 className="section-headline">Portfolio</h2>
+
+                <div className="portfolio__select">
+                    <select name="text"
+                            value={activeTag}
+                            onChange={(e) => setActiveTag(e.target.value)}
+                            required>
+                        {allTags().map((item) => (
+                            <option value={item} key={item}>{item}</option>
+                        ))}
+                    </select>
+                </div>
             </div>
 
             <div className="container container--fluid">
                 <div className="portfolio__slider">
                     <Slider itemWidth={'500px'} itemWidthMobile={'90%'} arrows={true}>
-                        {items.map((item) => (
+                        {filteredItems().map((item) => (
                             <article
                                 className="portfolio__slide"
                                 key={item.headline}
-                                style={{background: `linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)),url("${item.bg}") center center / cover no-repeat`}}>
+                                style={{background: `linear-gradient(rgba(0, 0, 0, 0.65),rgba(0, 0, 0, 0.65)),url("${item.bg}") center center / cover no-repeat`}}>
                                 <h2 className="portfolio__slide-headline">{item.headline}</h2>
                                 <div className="portfolio__slide-text"
                                      dangerouslySetInnerHTML={{__html: item.text}}>
                                 </div>
-
 
                                 <div className="portfolio__slide-tags">
                                     <span>#{item.tag}</span>
