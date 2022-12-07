@@ -1,6 +1,6 @@
 # Portfolio
 
-Website for a developer at https://inqool.cz/. 
+Website for a developer position at https://inqool.cz/ 
 
 ## Implemented bonuses
 - React & Typescript 
