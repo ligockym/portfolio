@@ -12,6 +12,11 @@ if (!$json || empty($json['headline']) || empty($json['date']) || empty($json['t
     die('Wrong data format.');
 }
 
+function strip_attributes($text){
+    // from https://stackoverflow.com/questions/3026096/remove-all-attributes-from-html-tags
+    return preg_replace("/<([a-z][a-z0-9]*)[^>]*?(\/?)>/si",'<$1$2>', $text);
+}
+
 try {
     $conn = db_connect();
 
@@ -24,8 +29,11 @@ try {
 
     $headline = strip_tags($json['headline']);
     $date = strip_tags($json['date']);
-    $text = strip_tags($json['text'], '<p>');
     $tags = strip_tags($json['tags']); // string comma separated value
+
+    $text = strip_attributes($text);
+    $text = strip_tags($json['text'], '<p>');
+
     $stmt->execute();
 
 
