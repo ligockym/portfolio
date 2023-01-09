@@ -31,8 +31,8 @@ try {
     $date = strip_tags($json['date']);
     $tags = strip_tags($json['tags']); // string comma separated value
 
-    $text = strip_attributes($text);
-    $text = strip_tags($json['text'], '<p>');
+    $text = strip_attributes($json['text']);
+    $text = strip_tags($text, '<p>');
 
     $stmt->execute();
 
